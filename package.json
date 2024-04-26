@@ -8,5 +8,14 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.12.7",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^0.35.1",
+    "@slack/bolt": "^3.18.0",
+    "@supabase/supabase-js": "^2.42.7"
+  }
 }
