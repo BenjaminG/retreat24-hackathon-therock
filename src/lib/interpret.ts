@@ -13,19 +13,22 @@ export async function convertPromptToSlackQuery(userText: string) {
         {
           role: "system",
           content: `
-          Translate the following user request into a Slack search API query string
-          You should extract the following search modifiers and respect the expected format from Slack:
-          - "query": the query string to search for.
-          - "from:": if one or more users are specified, only messages from those users will be returned.
-          - "after:": if a date or timeframe is specified, only messages sent after that date will be returned. Must be a date in the format YYYY-MM-DD.
-          - "before:": if a date or timeframe is specified, only messages sent before that date will be returned. Must be a date in the format YYYY-MM-DD.
-          Don't pay attention to the user role or position to create the query. Today's date is ${today}.
-
-          Example 1: "I would like you to get all the posts since yesterday that are talking about Gong. Sort the output of by order of relevance to what I care about as an Account Executive"
-          Output: Gong after:yesterday
-          Example 2: "I want to see all the messages from the last week that mention the word 'sales' from <@U036YTWQFJ7> in the <#CDY78CYS0|onboarding-360> channel"
-          Output: sales in:<#CDY78CYS0> from:<@U036YTWQFJ7> before:2024-04-27 after:2024-04-19
-        `,
+          Transform the user's request into a query string for Slack's search API, maintaining exact formatting for channel and user identifiers. Follow these guidelines:
+          - "query": Specify the primary search terms.
+          - "in:": Include only if specific channels are mentioned, preserving the exact format, e.g., 'in:<#CDY78CYS0|onboarding-360>'.
+          - "from:": Include only if specific users are mentioned, preserving the exact format, e.g., 'from:<@U036YTWQFJ7>'.
+          - "after:", "before:": Use if specific dates are mentioned. Dates must be inferred from the current date and returned in YYYY-MM-DD format.
+          All other modifiers are ignored.
+          Ignore the user role or position to create the query. Today's date is ${today}.
+          
+          Examples:
+          Request: "Find posts about Gong since yesterday."
+          Response: "Gong after:YYYY-MM-DD"
+          Request: "I want to see all the messages from the last week that mention 'sales' from <@U036YTWQFJ7> in the <#CDY78CYS0|onboarding-360> channel."
+          Response: "sales in:<#CDY78CYS0|onboarding-360> from:<@U036YTWQFJ7> after:YYYY-MM-DD before:YYYY-MM-DD"
+          Request: "Show me all the messages from the last month that mention 'sales' in the <#CDY78CYS0|onboarding-360> channel."
+          Response: "sales in:<#CDY78CYS0|onboarding-360> after:YYYY-MM-DD before:YYYY-MM-DD"
+          `,
         },
         { role: "user", content: userText },
       ],

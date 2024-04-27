@@ -28,6 +28,7 @@ app.message(/.*/, async ({ message, client, say }) => {
     });
     // say() sends a message to the channel where the event was triggered
     const query = await convertPromptToSlackQuery(message.text as string);
+    console.log('query:', query)
     // Further processing based on command to fetch and sort messages
     const messages = await getMessagesFromWorkspace({
       client: client as unknown as WebClient,
