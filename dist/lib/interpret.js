@@ -1,21 +1,21 @@
-import OpenAI from "openai";
-import { SimpleMessage } from "./pull";
-
-console.log("process.env:", process.env);
-
-
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.digestMessages = exports.convertPromptToSlackQuery = void 0;
+const openai_1 = __importDefault(require("openai"));
+const openai = new openai_1.default({
+    apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
 });
-
-export async function convertPromptToSlackQuery(userText: string) {
-  try {
-    const today = new Date().toDateString();
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: `
+async function convertPromptToSlackQuery(userText) {
+    try {
+        const today = new Date().toDateString();
+        const chatCompletion = await openai.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: `
           Transform the user's request into a query string for Slack's search API, maintaining exact formatting for channel and user identifiers. Follow these guidelines:
 
           query: Specify the primary search terms.
@@ -35,21 +35,21 @@ export async function convertPromptToSlackQuery(userText: string) {
           Request: "I want to see all the messages from the last week in multiple channels."
           Response: in:<#C02FS2924|general> in:<#C03EDFKR6|random> after:YYYY-MM-DD before:YYYY-MM-DD          
           `,
-        },
-        { role: "user", content: userText },
-      ],
-      model: "gpt-3.5-turbo",
-    });
-
-    return chatCompletion.choices[0]?.message.content;
-  } catch (error) {
-    console.error("Error calling GPT-3:", error);
-    return null;
-  }
+                },
+                { role: "user", content: userText },
+            ],
+            model: "gpt-3.5-turbo",
+        });
+        return chatCompletion.choices[0]?.message.content;
+    }
+    catch (error) {
+        console.error("Error calling GPT-3:", error);
+        return null;
+    }
 }
-
-function formatMessageAndMetadataForOpenAI(message: SimpleMessage): string {
-  return `---
+exports.convertPromptToSlackQuery = convertPromptToSlackQuery;
+function formatMessageAndMetadataForOpenAI(message) {
+    return `---
   From: ${message.from}
   Channel: ${message.channel}
   Permalink: ${message.permalink}
@@ -57,34 +57,36 @@ function formatMessageAndMetadataForOpenAI(message: SimpleMessage): string {
   ${message.text}
 ---`;
 }
-
-export async function digestMessages(messages: SimpleMessage[]) {
-  try {
-    const chatCompletion = await openai.chat.completions.create({
-      messages: [
-        {
-          role: "system",
-          content: `
+async function digestMessages(messages) {
+    try {
+        const chatCompletion = await openai.chat.completions.create({
+            messages: [
+                {
+                    role: "system",
+                    content: `
           Summarize the following messages from Slack to create a digest formatted as a Slack post. 
           Highlight action items and responsibilities for each individual mentioned. 
           Order the summary by relevance based on the concerns of job title, position or interests when provided. 
           Convert channel IDs to <#channel_id|channel_name> format and user IDs to <@user_id> format.
           Include links to message permalinks for reference. Use plain language and be concise.          
         `,
-        },
-        {
-          role: "user",
-          content: `Message count: ${messages.length}
+                },
+                {
+                    role: "user",
+                    content: `Message count: ${messages.length}
           ---
           ${JSON.stringify(messages.map(formatMessageAndMetadataForOpenAI))}`,
-        },
-      ],
-      model: "gpt-3.5-turbo",
-    });
-    console.log({ messagesCount: messages.length, chatCompletion });
-    return chatCompletion.choices[0]?.message.content;
-  } catch (error) {
-    console.error("Error calling GPT-3:", error);
-    return null;
-  }
+                },
+            ],
+            model: "gpt-3.5-turbo",
+        });
+        console.log({ messagesCount: messages.length, chatCompletion });
+        return chatCompletion.choices[0]?.message.content;
+    }
+    catch (error) {
+        console.error("Error calling GPT-3:", error);
+        return null;
+    }
 }
+exports.digestMessages = digestMessages;
+//# sourceMappingURL=interpret.js.map

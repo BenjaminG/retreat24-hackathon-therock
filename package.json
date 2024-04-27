@@ -4,9 +4,9 @@
   "description": "",
   "main": "dist/app.js",
   "scripts": {
-    "build": "dotenvx run -- tsc -p .",
-    "build:watch": "dotenvx run -- tsc -w -p .",
-    "start": "dotenvx run -- node dist/app.js",
+    "build": "dotenvx run -- tsc",
+    "build:watch": "dotenvx run -- tsc -w",
+    "start": "node dist/app.js",
     "dev": "dotenvx run -- nodemon --ext 'ts,json' --exec 'ts-node --transpile-only src/app.ts'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

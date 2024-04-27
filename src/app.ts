@@ -28,19 +28,24 @@ app.message(/.*/, async ({ message, client, say }) => {
     });
     // say() sends a message to the channel where the event was triggered
     const query = await convertPromptToSlackQuery(message.text as string);
-    console.log('query:', query)
+    console.log({query})
     // Further processing based on command to fetch and sort messages
     const messages = await getMessagesFromWorkspace({
       client: client as unknown as WebClient,
       query: query as string,
     });
-
+    
     const messagesFromPublicChannels = messages.filter(
       (message) => !message.channel?.is_private
     );
 
     const contents = getMessageContents(messagesFromPublicChannels);
     const digest = await digestMessages(contents);
+    console.log({
+      contents,
+      digest
+    });
+    
 
     await say({ text: digest! });
   }
