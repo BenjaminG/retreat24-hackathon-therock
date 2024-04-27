@@ -1,8 +1,8 @@
 ## TODO:
 
-- [ ] Create and setup Vercel app
-- [ ] Create Slack App + Bot
-- [ ] Create Supabase account
-- [ ] Update repo with correct dependencies
+- [x] Create and setup Vercel app
+- [x] Create Slack App + Bot
+- [x] Create Supabase account
+- [x] Update repo with correct dependencies
 - [ ] Initialize the project with Bolt
 - [ ] Deploy to Vercel

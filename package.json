@@ -2,23 +2,29 @@
   "name": "retreat24-hackathon",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/app.js",
   "scripts": {
-    "build": "tsc -p .",
-    "build:watch": "tsc -w -p .",
-    "start": "node dist/index.js",
+    "build": "dotenvx run -- tsc -p .",
+    "build:watch": "dotenvx run -- tsc -w -p .",
+    "start": "dotenvx run -- node dist/app.js",
+    "dev": "dotenvx run -- nodemon --ext 'ts,json' --exec 'ts-node --transpile-only src/app.ts'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@slack/web-api": "^7.0.4",
     "@types/node": "^20.12.7",
+    "nodemon": "^3.1.0",
+    "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "@dotenvx/dotenvx": "^0.35.1",
     "@slack/bolt": "^3.18.0",
-    "@supabase/supabase-js": "^2.42.7"
+    "@supabase/supabase-js": "^2.42.7",
+    "axios": "^1.6.8",
+    "openai": "^4.38.5"
   }
 }
