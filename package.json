@@ -6,7 +6,7 @@
   "scripts": {
     "build": "dotenvx run -- tsc",
     "build:watch": "dotenvx run -- tsc -w",
-    "start": "node dist/app.js",
+    "start": "dotenvx run -- node dist/app.js",
     "dev": "dotenvx run -- nodemon --ext 'ts,json' --exec 'ts-node --transpile-only src/app.ts'",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
