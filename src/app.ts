@@ -24,7 +24,7 @@ app.message(/.*/, async ({ message, client, say }) => {
 
   if (!message.subtype && message.channel_type === "im") {
     await say({
-      text: "Please wait, Nic Cage is currently rocking the results for you...",
+      text: ":nic-cage-sparkle: Please wait, Nic Cage is currently rocking the results for you...",
     });
     // say() sends a message to the channel where the event was triggered
     const query = await convertPromptToSlackQuery(message.text as string);

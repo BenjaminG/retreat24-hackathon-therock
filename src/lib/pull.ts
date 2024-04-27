@@ -47,7 +47,7 @@ export async function getMessagesFromWorkspace({
   query,
   sort,
   sort_dir,
-  count,
+  count = 1000,
 }: WorkspaceMessageQueryParams): Promise<Message[]> {
   const payload = {
     query,
