@@ -1,8 +1,6 @@
 import OpenAI from "openai";
 import { SimpleMessage } from "./pull";
 
-console.log("OPENAI_API_KEY:", process.env.OPENAI_API_KEY, process.env['OPENAI_API_KEY'], process.env);
-
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY, // This is the default and can be omitted
 });
